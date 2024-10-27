@@ -154,7 +154,7 @@ fun FinalResultDialog(score: Int, errors: Int, onRestart: () -> Unit) {
     val message = if (errors == 0) {
         "Parabéns! Você não é um alvo fácil e pode navegar pela web com segurança."
     } else {
-        "Você teria sido um alvo fácil e possivelmente seus dados estariam expostos. Vamos melhorar sua segurança!"
+        "Você teria sido um alvo fácil e possivelmente seus dados estariam expostos. Tente de novo para praticar!"
     }
 
     AlertDialog(
