@@ -12,5 +12,5 @@ fun QuizScreen(){
 @Preview(showBackground = true)
 @Composable
 fun QuizScreenPreview(){
-    NewsScreen()
+    QuizScreen()
 }

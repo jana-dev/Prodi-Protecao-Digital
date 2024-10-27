@@ -33,7 +33,7 @@ fun NewsScreen(){
         text = "Notícias",
         style = MaterialTheme.typography.headlineSmall,
         color = MaterialTheme.colorScheme.primary,
-        modifier = Modifier.padding(bottom = 16.dp)
+        modifier = Modifier.padding(top = 16.dp,bottom = 16.dp)
     )
 
     LazyColumn(
@@ -55,7 +55,7 @@ fun NewsCard(news: NewsItem){
             .fillMaxWidth()
             .padding(vertical = 8.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color.Gray // ou use qualquer cor que prefira para o fundo do Card
+            containerColor = MaterialTheme.colorScheme.surface// ou use qualquer cor que prefira para o fundo do Card
         )
         ){
         Row(
@@ -69,7 +69,7 @@ fun NewsCard(news: NewsItem){
                 painter = painterResource(id = R.drawable.newsimage),
                 contentDescription = "Imagem da notícia",
                 modifier = Modifier
-                    .size(200.dp)
+                    .size(150.dp)
                     .padding(end = 16.dp) // Espaço entre imagem e texto
             )
 
