@@ -1,7 +1,10 @@
 package com.janatavares.prodi.ui.screens
 
+import android.content.ClipData.Item
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -24,96 +27,107 @@ fun QuizScreen(quizViewModel: QuizViewModel){
     } else{
         val currentQuestion = quizViewModel.currentQuestion
 
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = "Quiz de Segurança Digital",
-                style = MaterialTheme.typography.headlineSmall,
-                color = MaterialTheme.colorScheme.primary
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Text(
-                text = currentQuestion.question,
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onBackground
-            )
+            item{
+                Text(
+                    text = "Quiz de Segurança Digital",
+                    style = MaterialTheme.typography.headlineSmall,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+            item{
+                Text(
+                    text = currentQuestion.question,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+            }
 
             // Exibir imagem, se houver
             currentQuestion.imageResId?.let { imageResId ->
-                Spacer(modifier = Modifier.height(16.dp))
-                Image(
-                    painter = painterResource(id = imageResId),
-                    contentDescription = "Imagem da pergunta",
-                    modifier = Modifier.size(200.dp)
-                )
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Opções com RadioButton
-            Column {
-                currentQuestion.options.forEachIndexed { index, option ->
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(vertical = 4.dp)
-                    ) {
-                        RadioButton(
-                            selected = quizViewModel.selectedOption == index,
-                            onClick = { quizViewModel.selectedOption = index }
-                        )
-                        Text(
-                            text = option,
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onBackground
-                        )
-                    }
+                item{
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Image(
+                        painter = painterResource(id = imageResId),
+                        contentDescription = "Imagem da pergunta",
+                        modifier = Modifier.size(300.dp)
+                    )
                 }
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            item { Spacer(modifier = Modifier.height(16.dp)) }
 
-            // Botão para confirmar resposta e exibir feedback no AlertDialog
-            Button(
-                onClick = { quizViewModel.confirmAnswer() },
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF76CBC5))
-            ) {
-                Text(text = "Confirmar Resposta")
+            // Opções com RadioButton
+            items(currentQuestion.options.size) { index ->
+                val option = currentQuestion.options[index]
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth() // Preenche toda a largura disponível
+                        .padding(vertical = 4.dp)
+                        .clickable { quizViewModel.selectedOption = index },
+                    horizontalArrangement = Arrangement.Start // Alinhamento à esquerda
+                ) {
+                    RadioButton(
+                        selected = quizViewModel.selectedOption == index,
+                        onClick = { quizViewModel.selectedOption = index }
+                    )
+                    Text(
+                        text = option,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                }
             }
-            // Modal para feedback de resposta
-            if (quizViewModel.showDialog) {
-                AlertDialog(
-                    onDismissRequest = { quizViewModel.showDialog = false  },
-                    title = {
-                        Text(
-                            text = if (quizViewModel.isCorrectAnswer) "Resposta Correta!" else "Resposta Incorreta",
-                            style = MaterialTheme.typography.titleMedium,
-                            color = if (quizViewModel.isCorrectAnswer) Color(0xFF4CAF50) else Color(0xFFF44336)
-                        )
-                    },
-                    text = {
-                        Text(
-                            text = if (quizViewModel.isCorrectAnswer) {
-                                "Parabéns! Você estaria protegido nessa situação!."
-                            } else {
-                                "Você teria sido um alvo fácil :( Depois confira as Notícias para aprender a seproteger melhor."
-                            },
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onBackground
-                        )
-                    },
-                    confirmButton = {
-                        Button(
-                            onClick = { quizViewModel.nextQuestion() }
-                        ) {
-                            Text("Próxima Pergunta")
+
+            item {
+                Spacer(modifier = Modifier.height(24.dp))
+
+                // Botão para confirmar resposta e exibir feedback no AlertDialog
+                Button(
+                    onClick = { quizViewModel.confirmAnswer() },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF76CBC5))
+                ) {
+                    Text(text = "Confirmar Resposta")
+                }
+
+                // Modal para feedback de resposta
+                if (quizViewModel.showDialog) {
+                    AlertDialog(
+                        onDismissRequest = { /* Não feche o dialog quando clicar fora */ },
+                        title = {
+                            Text(
+                                text = if (quizViewModel.isCorrectAnswer) "Resposta Correta!" else "Resposta Incorreta",
+                                style = MaterialTheme.typography.titleMedium,
+                                color = if (quizViewModel.isCorrectAnswer) Color(0xFF4CAF50) else Color(0xFFF44336)
+                            )
+                        },
+                        text = {
+                            Text(
+                                text = if (quizViewModel.isCorrectAnswer) {
+                                    "Parabéns! Você estaria protegido nessa situação!"
+                                } else {
+                                    "Você teria sido um alvo fácil :( Depois confira as Notícias para aprender a se proteger melhor."
+                                },
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onBackground
+                            )
+                        },
+                        confirmButton = {
+                            Button(
+                                onClick = { quizViewModel.nextQuestion() }
+                            ) {
+                                Text("Próxima Pergunta")
+                            }
                         }
-                    }
-                )
+                    )
+                }
             }
         }
     }
