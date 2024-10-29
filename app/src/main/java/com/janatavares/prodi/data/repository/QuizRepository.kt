@@ -12,10 +12,10 @@ data class QuizQuestion (
 object QuizRepository {
     val questions = listOf(
         QuizQuestion(
-            question = "Qual destes é um exemplo de Pishing?",
-            options = listOf("Email de recuperação de senha do banco", "Oferta de empréstimo com link desconhecido", "SMS de um amigo"),
-            correctAnswerIndex = 0,
-            imageResId = R.drawable.newsimage
+            question = "Este e-mail é considerado um Pishing Attack?",
+            options = listOf("Não, este e-mail é confiável.", "Não pois tem a logo dos Correios que é uma empresa famosa.", "Sim primeiramente foi direto para o lixo eletrônico e também o endereço eletrônico não é oficial dos correios."),
+            correctAnswerIndex = 2,
+            imageResId = R.drawable.emailcorreios
         ),
         QuizQuestion(
             question = "Qual destes links demonstra ser de um site oficial? www.casasbahia.com.br ou www.sitecasasbahia.com.br",

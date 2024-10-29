@@ -8,33 +8,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.janatavares.prodi.data.repository.QuizRepository
+import com.janatavares.prodi.viewmodel.QuizViewModel
 
 @Composable
-fun QuizScreen(){
-    val questions = QuizRepository.questions
-    var currentIndex by remember { mutableStateOf(0) }
-    val currentQuestion = questions[currentIndex]
-    var selectedOption by remember { mutableStateOf(-1) } // Nenhuma opção selecionada
-    var showDialog by remember { mutableStateOf(false) }
-    var isCorrectAnswer by remember { mutableStateOf(false) }
-    var score by remember { mutableStateOf(0) }
-    var errors by remember { mutableStateOf(0) }
-    var showFinalResult by remember { mutableStateOf(false) }
+fun QuizScreen(quizViewModel: QuizViewModel){
 
     // Se finalizou o quiz, mostra o resultado final
-    if (showFinalResult) {
-        FinalResultDialog(score = score, errors = errors) {
-            currentIndex = 0
-            score = 0
-            errors = 0
-            selectedOption = -1
-            showFinalResult = false
-        }
+    if (quizViewModel.showFinalResult) {
+        FinalResultDialog(
+            score = quizViewModel.score,
+            errors = quizViewModel.errors,
+            onRestart = { quizViewModel.restartQuiz() }
+        )
     } else{
-        val currentQuestion = questions[currentIndex]
+        val currentQuestion = quizViewModel.currentQuestion
 
         Column(
             modifier = Modifier
@@ -75,8 +63,8 @@ fun QuizScreen(){
                         modifier = Modifier.padding(vertical = 4.dp)
                     ) {
                         RadioButton(
-                            selected = selectedOption == index,
-                            onClick = { selectedOption = index }
+                            selected = quizViewModel.selectedOption == index,
+                            onClick = { quizViewModel.selectedOption = index }
                         )
                         Text(
                             text = option,
@@ -91,33 +79,25 @@ fun QuizScreen(){
 
             // Botão para confirmar resposta e exibir feedback no AlertDialog
             Button(
-                onClick = {
-                    isCorrectAnswer = selectedOption == currentQuestion.correctAnswerIndex
-                    if (isCorrectAnswer) {
-                        score++
-                    } else {
-                        errors++
-                    }
-                    showDialog = true
-                },
+                onClick = { quizViewModel.confirmAnswer() },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF76CBC5))
             ) {
                 Text(text = "Confirmar Resposta")
             }
             // Modal para feedback de resposta
-            if (showDialog) {
+            if (quizViewModel.showDialog) {
                 AlertDialog(
-                    onDismissRequest = { showDialog = false },
+                    onDismissRequest = { quizViewModel.showDialog = false  },
                     title = {
                         Text(
-                            text = if (isCorrectAnswer) "Resposta Correta!" else "Resposta Incorreta",
+                            text = if (quizViewModel.isCorrectAnswer) "Resposta Correta!" else "Resposta Incorreta",
                             style = MaterialTheme.typography.titleMedium,
-                            color = if (isCorrectAnswer) Color(0xFF4CAF50) else Color(0xFFF44336)
+                            color = if (quizViewModel.isCorrectAnswer) Color(0xFF4CAF50) else Color(0xFFF44336)
                         )
                     },
                     text = {
                         Text(
-                            text = if (isCorrectAnswer) {
+                            text = if (quizViewModel.isCorrectAnswer) {
                                 "Parabéns! Você estaria protegido nessa situação!."
                             } else {
                                 "Você teria sido um alvo fácil :( Depois confira as Notícias para aprender a seproteger melhor."
@@ -128,17 +108,9 @@ fun QuizScreen(){
                     },
                     confirmButton = {
                         Button(
-                            onClick = {
-                                showDialog = false
-                                if (currentIndex == questions.lastIndex) {
-                                    showFinalResult = true
-                                } else {
-                                    currentIndex++
-                                    selectedOption = -1
-                                }
-                            }
+                            onClick = { quizViewModel.nextQuestion() }
                         ) {
-                            Text(if (isCorrectAnswer || currentIndex == questions.lastIndex) "Próxima Pergunta" else "Próxima Pergunta")
+                            Text("Próxima Pergunta")
                         }
                     }
                 )
@@ -174,10 +146,4 @@ fun FinalResultDialog(score: Int, errors: Int, onRestart: () -> Unit) {
             }
         }
     )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun QuizScreenPreview(){
-    QuizScreen()
 }

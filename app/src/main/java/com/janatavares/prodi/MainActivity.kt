@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -17,15 +18,20 @@ import com.janatavares.prodi.ui.screens.PasswordSimulatorScreen
 import com.janatavares.prodi.ui.screens.QuizScreen
 import com.janatavares.prodi.ui.screens.GreetingsScreen
 import com.janatavares.prodi.ui.components.BottomNavBar
+import com.janatavares.prodi.viewmodel.QuizViewModel
 
 class MainActivity : ComponentActivity() {
+
+    // Instancia o ViewModel da Activity
+    private val quizViewModel: QuizViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             ProdiTheme {
                 // Chama a função TelaInicial para ser exibida
-                TelaInicial()
+                TelaInicial(quizViewModel)
             }
         }
     }
@@ -33,7 +39,7 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TelaInicial(){
+fun TelaInicial(quizViewModel: QuizViewModel){
 
     var selectedItem by remember { mutableStateOf(0) } // Controla o item selecionado
 
@@ -63,7 +69,7 @@ fun TelaInicial(){
                     0 -> GreetingsScreen()
                     1 -> NewsScreen()
                     2 -> PasswordSimulatorScreen()
-                    3 -> QuizScreen()
+                    3 -> QuizScreen(quizViewModel = quizViewModel)
                 }
             }
         }
@@ -75,6 +81,6 @@ fun TelaInicial(){
 @Composable
 fun TelaInicialPreview() {
     ProdiTheme {
-        TelaInicial()
+        //TelaInicial()
     }
 }
