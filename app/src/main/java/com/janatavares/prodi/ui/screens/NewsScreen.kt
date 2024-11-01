@@ -11,23 +11,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.janatavares.prodi.R
+import com.janatavares.prodi.data.repository.NewsRepository
+import androidx.compose.foundation.clickable
+import com.janatavares.prodi.data.model.NewsItem
 
 @Composable
-fun NewsScreen(){
-    val sampleNews = listOf(
-        NewsItem("Novo ataque de phishing em redes sociais", "Fique atento aos novos métodos de phishing que estão circulando."),
-        NewsItem("Vazamento de dados de grandes empresas", "Hackers acessaram milhões de contas de usuários."),
-        NewsItem("Importância das senhas fortes", "Entenda como senhas complexas podem proteger sua segurança online."),
-        NewsItem("Novo ataque de phishing em redes sociais", "Fique atento aos novos métodos de phishing que estão circulando."),
-        NewsItem("Vazamento de dados de grandes empresas", "Hackers acessaram milhões de contas de usuários."),
-        NewsItem("Importância das senhas fortes", "Entenda como senhas complexas podem proteger sua segurança online."),
-    )
+fun NewsScreen(onNewsClick: (NewsItem) -> Unit){
+    val newsList = NewsRepository.newsList
 
     Text(
         text = "Notícias",
@@ -41,19 +35,20 @@ fun NewsScreen(){
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        items(sampleNews){ news ->
-            NewsCard(news)
+        items(newsList){ news ->
+            NewsCard(news = news, onClick = { onNewsClick(news) })
             Spacer(modifier = Modifier.height(12.dp))
         }
     }
 }
 
 @Composable
-fun NewsCard(news: NewsItem){
+fun NewsCard(news: com.janatavares.prodi.data.model.NewsItem, onClick: () -> Unit){
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
+            .padding(vertical = 8.dp)
+            .clickable { onClick() },
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface// ou use qualquer cor que prefira para o fundo do Card
         )
@@ -66,7 +61,7 @@ fun NewsCard(news: NewsItem){
         ){
             // Imagem à esquerda
             Image(
-                painter = painterResource(id = R.drawable.newsimage),
+                painter = painterResource(id = news.imageResId),
                 contentDescription = "Imagem da notícia",
                 modifier = Modifier
                     .size(150.dp)
@@ -97,7 +92,7 @@ fun NewsCard(news: NewsItem){
 @Preview(showBackground = true)
 @Composable
 fun NewsScreenPreview(){
-    NewsScreen()
+    NewsScreen(onNewsClick = {})
 }
 
 data class NewsItem(

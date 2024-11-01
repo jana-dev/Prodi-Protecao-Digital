@@ -106,9 +106,3 @@ fun PasswordTips() {
         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
     )
 }
-
-@Preview(showBackground = true)
-@Composable
-fun PasswordSimulatorScreenPreview(){
-    NewsScreen()
-}

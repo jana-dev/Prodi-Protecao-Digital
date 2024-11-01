@@ -45,9 +45,3 @@ fun GreetingsScreen(){
 
     Spacer(modifier = Modifier.height(16.dp))
 }
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingsScreenPreview(){
-    NewsScreen()
-}

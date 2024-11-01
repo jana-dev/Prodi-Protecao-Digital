@@ -12,12 +12,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.janatavares.prodi.data.model.NewsItem
 import com.janatavares.prodi.ui.theme.ProdiTheme
-import com.janatavares.prodi.ui.screens.NewsScreen
-import com.janatavares.prodi.ui.screens.PasswordSimulatorScreen
-import com.janatavares.prodi.ui.screens.QuizScreen
-import com.janatavares.prodi.ui.screens.GreetingsScreen
 import com.janatavares.prodi.ui.components.BottomNavBar
+import com.janatavares.prodi.ui.screens.*
 import com.janatavares.prodi.viewmodel.QuizViewModel
 
 class MainActivity : ComponentActivity() {
@@ -42,11 +40,14 @@ class MainActivity : ComponentActivity() {
 fun TelaInicial(quizViewModel: QuizViewModel){
 
     var selectedItem by remember { mutableStateOf(0) } // Controla o item selecionado
+    var selectedNewsItem by remember { mutableStateOf<NewsItem?>(null) }
+
 
     Scaffold (
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text("PRODI - Proteção Digital") },
+                title = { Text("PRODI - Proteção Digital")},
+
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                     titleContentColor = MaterialTheme.colorScheme.onPrimary,
@@ -54,7 +55,10 @@ fun TelaInicial(quizViewModel: QuizViewModel){
             )
         },
         bottomBar = {
-            BottomNavBar(selectedItem = selectedItem, onItemSelected = { selectedItem = it }) // Passa a função
+            BottomNavBar(selectedItem = selectedItem, onItemSelected = {
+                selectedItem = it
+                selectedNewsItem = null // Limpa a notícia selecionada ao trocar de aba
+            })
         },
         content = { innerPadding ->
             //Componentes futuros
@@ -65,11 +69,19 @@ fun TelaInicial(quizViewModel: QuizViewModel){
                     .background(MaterialTheme.colorScheme.background),
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
-                when (selectedItem) {
-                    0 -> GreetingsScreen()
-                    1 -> NewsScreen()
-                    2 -> PasswordSimulatorScreen()
-                    3 -> QuizScreen(quizViewModel = quizViewModel)
+                if (selectedNewsItem != null) {
+                    NewsDetailScreen(newsItem = selectedNewsItem!!) {
+                        selectedNewsItem = null // Volta para a lista de notícias
+                    }
+            } else{
+                    when (selectedItem) {
+                        0 -> GreetingsScreen()
+                        1 -> NewsScreen { newsItem ->
+                            selectedNewsItem = newsItem // Armazena o item de notícia selecionado)
+                        }
+                        2 -> PasswordSimulatorScreen()
+                        3 -> QuizScreen(quizViewModel = quizViewModel)
+                    }
                 }
             }
         }
