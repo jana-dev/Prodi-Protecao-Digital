@@ -17,19 +17,10 @@ O projeto foi desenvolvido utilizando a arquitetura MVVM (Model-View-ViewModel),
 
 ### Screenshots
 
-**Tela Inicial**
 ![Tela Inicial](telainicial.png)
-
-**Tela de Notícias**
 ![Tela de notícias](telanoticias.png)
-
-**Detalhes da Notícia**
 ![Detalhes da notícia](telanoticiacompleta.png)
-
-**Simulador de Senhas**
 ![Simulador de Senhas](telasenha.png)
-
-**Quiz Educativo**
 ![Quiz](telaquiz.png)
 ![Dialog Resultado Certo](resultadocerto.png)
 ![Dialog Resultado Incorreto](resultadoincorreto.png)
