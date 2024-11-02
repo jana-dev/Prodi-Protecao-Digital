@@ -61,7 +61,6 @@ fun TelaInicial(quizViewModel: QuizViewModel){
             })
         },
         content = { innerPadding ->
-            //Componentes futuros
             Column(
                 modifier = Modifier
                     .fillMaxSize()

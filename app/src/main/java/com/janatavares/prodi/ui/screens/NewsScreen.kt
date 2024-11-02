@@ -50,7 +50,7 @@ fun NewsCard(news: com.janatavares.prodi.data.model.NewsItem, onClick: () -> Uni
             .padding(vertical = 8.dp)
             .clickable { onClick() },
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface// ou use qualquer cor que prefira para o fundo do Card
+            containerColor = MaterialTheme.colorScheme.tertiary// ou use qualquer cor que prefira para o fundo do Card
         )
         ){
         Row(
