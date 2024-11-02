@@ -22,14 +22,6 @@ object QuizRepository {
             imageResId = R.drawable.emailcorreios
         ),
         QuizQuestion(
-            question = "Qual destes links demonstra ser de um site oficial? www.casasbahia.com.br ou www.sitecasasbahia.com.br",
-            options = listOf(
-                "www.casasbahia.com.br",
-                "www.sitecasasbahia.com.br"
-            ),
-            correctAnswerIndex = 0
-        ),
-        QuizQuestion(
             question = "Você recebe um SMS dizendo que seu banco bloqueou sua conta e que é necessário clicar em um link para desbloqueá-la. O que você faz?",
             options = listOf(
                 "Clica no link imediatamente para resolver o problema.",

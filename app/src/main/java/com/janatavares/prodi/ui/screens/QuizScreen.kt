@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.wear.compose.material.dialog.DialogDefaults
 import com.janatavares.prodi.viewmodel.QuizViewModel
 
 @Composable
@@ -125,7 +126,8 @@ fun QuizScreen(quizViewModel: QuizViewModel){
                             ) {
                                 Text("Próxima Pergunta")
                             }
-                        }
+                        },
+
                     )
                 }
             }
@@ -158,6 +160,6 @@ fun FinalResultDialog(score: Int, errors: Int, onRestart: () -> Unit) {
             Button(onClick = onRestart) {
                 Text("Recomeçar")
             }
-        }
+        },
     )
 }

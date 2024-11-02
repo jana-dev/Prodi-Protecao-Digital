@@ -19,7 +19,7 @@ fun BottomNavBar(selectedItem: Int, onItemSelected: (Int) -> Unit) {
                 Icon(
                     Icons.Default.Info,
                     contentDescription = "Notícias",
-                    tint = if (selectedItem == 1) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.surface // Cor do ícone com base na seleção
+                    tint = if (selectedItem == 1) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.tertiary // Cor do ícone com base na seleção
                 )
             },
             selected = selectedItem == 1, // Verifica se este item está selecionado
@@ -35,7 +35,7 @@ fun BottomNavBar(selectedItem: Int, onItemSelected: (Int) -> Unit) {
                 Icon(
                     Icons.Default.Lock,
                     contentDescription = "Simulador de Senhas",
-                    tint = if (selectedItem == 2) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.surface // Cor do ícone com base na seleção
+                    tint = if (selectedItem == 2) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.tertiary // Cor do ícone com base na seleção
                 )
             },
             selected = selectedItem == 2, // Verifica se este item está selecionado
@@ -51,7 +51,7 @@ fun BottomNavBar(selectedItem: Int, onItemSelected: (Int) -> Unit) {
                 Icon(
                     Icons.Default.CheckCircle,
                     contentDescription = "Quiz de Segurança",
-                    tint = if (selectedItem == 3) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.surface // Cor do ícone com base na seleção
+                    tint = if (selectedItem == 3) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.tertiary // Cor do ícone com base na seleção
                 )
             },
             selected = selectedItem == 3, // Verifica se este item está selecionado

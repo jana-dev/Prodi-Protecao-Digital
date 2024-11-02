@@ -17,6 +17,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.janatavares.prodi.data.repository.NewsRepository
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import com.janatavares.prodi.data.model.NewsItem
 
 @Composable
@@ -43,14 +46,14 @@ fun NewsScreen(onNewsClick: (NewsItem) -> Unit){
 }
 
 @Composable
-fun NewsCard(news: com.janatavares.prodi.data.model.NewsItem, onClick: () -> Unit){
+fun NewsCard(news: NewsItem, onClick: () -> Unit){
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp)
             .clickable { onClick() },
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.tertiary// ou use qualquer cor que prefira para o fundo do Card
+            containerColor = MaterialTheme.colorScheme.background// ou use qualquer cor que prefira para o fundo do Card
         )
         ){
         Row(
@@ -59,15 +62,21 @@ fun NewsCard(news: com.janatavares.prodi.data.model.NewsItem, onClick: () -> Uni
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ){
-            // Imagem à esquerda
-            Image(
-                painter = painterResource(id = news.imageResId),
-                contentDescription = "Imagem da notícia",
+            Box(
                 modifier = Modifier
-                    .size(150.dp)
-                    .padding(end = 16.dp) // Espaço entre imagem e texto
-            )
-
+                    .size(100.dp)
+                    .clip(RoundedCornerShape(8.dp))
+            ){
+                // Imagem à esquerda
+                Image(
+                    painter = painterResource(id = news.imageResId),
+                    contentDescription = "Imagem da notícia",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxSize() // Espaço entre imagem e texto
+                )
+            }
+            Spacer(modifier = Modifier.width(16.dp))
             Column(
                 modifier = Modifier.padding(16.dp),
                 verticalArrangement = Arrangement.Center

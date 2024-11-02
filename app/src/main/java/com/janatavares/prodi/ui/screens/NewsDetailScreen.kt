@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.janatavares.prodi.data.model.NewsItem
 
@@ -18,7 +19,7 @@ fun NewsDetailScreen(newsItem: NewsItem, onBack: () -> Unit) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(20.dp)
     ) {
         item {
             // Botão de voltar
@@ -50,7 +51,8 @@ fun NewsDetailScreen(newsItem: NewsItem, onBack: () -> Unit) {
             Text(
                 text = newsItem.fullText,
                 style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onSurface,
+                textAlign = TextAlign.Justify
             )
         }
     }
