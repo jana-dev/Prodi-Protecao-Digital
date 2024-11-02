@@ -27,8 +27,8 @@ O projeto foi desenvolvido utilizando a arquitetura MVVM (Model-View-ViewModel),
 ![Dialog Resultado Quiz](resultadoquiz.png)
 
 ### Como Executar o Projeto
-Clone o repositório:
+- Clone o repositório:
 git clone https://github.com/seu-usuario/prodi-protecao-digital.git
-Importe o projeto no Android Studio.
-Conecte um dispositivo ou inicie um emulador.
-Compile e execute o projeto.
+- Importe o projeto no Android Studio.
+- Conecte um dispositivo ou inicie um emulador.
+- Compile e execute o projeto.
